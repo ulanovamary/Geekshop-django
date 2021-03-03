@@ -8,11 +8,12 @@ from mainapp.models import Product, ProductCategory
 
 dir = os.path.dirname(__file__)
 
+
 # функции = вьюхи = контроллеры
 def index(request):
     context = {
         'title': 'geekShop',
-        'heading':'geekShop store',
+        'heading': 'geekShop store',
         'text': 'Новые образы и лучшие бренды на GeekShop Store. '
                 'Бесплатная доставка по всему миру! Аутлет: до -70% Собственный бренд. -20% новым покупателям.',
         'date': datetime
@@ -20,18 +21,17 @@ def index(request):
     return render(request, 'mainapp/index.html', context)
 
 
-def products(request):
+def products(request, id=None):
     context = {
         'title': 'geekShop - Каталог',
         'heading': 'geekShop',
         'products': Product.objects.all(),
         'categories': ProductCategory.objects.all(),
-        'pages':[
+        'pages': [
             {'number': '1'},
             {'number': '2'},
             {'number': '3'},
         ],
     }
-    file_path = os.path.join(dir, 'fixtures/products.json')
-    context.update(json.load(open(file_path,encoding='utf-8')))
+
     return render(request, 'mainapp/products.html', context)
