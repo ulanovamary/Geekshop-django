@@ -3,6 +3,8 @@ from mainapp.models import ProductCategory
 from authapp.models import User
 from django import forms
 from django.forms import ModelForm
+from django.db import models
+
 
 
 class UserAdminRegistrationForm(UserRegisterForm):
@@ -26,10 +28,11 @@ class UserAdminProfileForm(UserProfileForm):
 
 
 class AdminProductCategoryForm(ModelForm):
+    is_active = models.BooleanField(('active'),default=True)
 
     class Meta:
         model = ProductCategory
-        fields = ('name', 'description')
+        fields = ('name', 'description', 'is_active')
     form = ProductCategory()
 
     def __init__(self, *args, **kwargs):
