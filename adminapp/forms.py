@@ -1,5 +1,5 @@
 from authapp.forms import UserRegisterForm, UserProfileForm
-from mainapp.models import ProductCategory
+from mainapp.models import ProductCategory, Product
 from authapp.models import User
 from django import forms
 from django.forms import ModelForm
@@ -37,6 +37,18 @@ class AdminProductCategoryForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AdminProductCategoryForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control py-4'
+
+class AdminProductForm(ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ('name', 'description', 'short_description', 'price', 'quantity', 'image', 'category')
+    form = Product()
+
+    def __init__(self, *args, **kwargs):
+        super(AdminProductForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control py-4'
 
