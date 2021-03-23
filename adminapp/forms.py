@@ -33,8 +33,6 @@ class AdminProductCategoryForm(ModelForm):
         model = ProductCategory
         fields = ('name', 'description', 'is_active')
 
-    form = ProductCategory()
-
     def __init__(self, *args, **kwargs):
         super(AdminProductCategoryForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -42,14 +40,15 @@ class AdminProductCategoryForm(ModelForm):
 
 
 class AdminProductForm(ModelForm):
+    image = forms.ImageField(widget=forms.FileInput())
+
     class Meta:
         model = Product
         fields = ('name', 'description', 'short_description', 'price', 'quantity', 'image', 'category')
 
-    form = Product()
-
     def __init__(self, *args, **kwargs):
         super(AdminProductForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control py-4'
+            field.widget.attrs['class'] = 'form-control'
+        self.fields['image'].widget.attrs['class'] = 'custom-file-input'
 

@@ -127,7 +127,7 @@ class CategoryListView(ListView):
 class CategoryCreateView(CreateView):
     model = ProductCategory
     template_name = 'adminapp/categories-create.html'
-    form_class = AdminProductCategoryForm()
+    form_class = AdminProductCategoryForm
     success_url = reverse_lazy('admin_staff:categories')
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser, login_url='/'))
@@ -161,7 +161,7 @@ class CategoryUpdateView(UpdateView):
         return context
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser, login_url='/'))
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request, *args , **kwargs):
         return super(CategoryUpdateView, self).dispatch(request, *args, **kwargs)
 
 # @user_passes_test(lambda u: u.is_superuser, login_url='/')
