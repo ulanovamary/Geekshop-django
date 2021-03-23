@@ -1,19 +1,18 @@
 from authapp.forms import UserRegisterForm, UserProfileForm
-from mainapp.models import ProductCategory
+from mainapp.models import ProductCategory, Product
 from authapp.models import User
 from django import forms
 from django.forms import ModelForm
 from django.db import models
 
 
-
 class UserAdminRegistrationForm(UserRegisterForm):
     avatar = forms.ImageField(widget=forms.FileInput())
-    
+
     class Meta:
         model = User
         fields = ('username', 'email', 'avatar', 'first_name', 'last_name', 'password1', 'password2')
-    
+
     def __init__(self, *args, **kwargs):
         super(UserAdminRegistrationForm, self).__init__(*args, **kwargs)
         self.fields['avatar'].widget.attrs['class'] = 'custom-file-input'
@@ -28,15 +27,28 @@ class UserAdminProfileForm(UserProfileForm):
 
 
 class AdminProductCategoryForm(ModelForm):
-    is_active = models.BooleanField(('active'),default=True)
+    is_active = models.BooleanField(('active'), default=True)
 
     class Meta:
         model = ProductCategory
         fields = ('name', 'description', 'is_active')
-    form = ProductCategory()
 
     def __init__(self, *args, **kwargs):
         super(AdminProductCategoryForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control py-4'
+
+
+class AdminProductForm(ModelForm):
+    image = forms.ImageField(widget=forms.FileInput())
+
+    class Meta:
+        model = Product
+        fields = ('name', 'description', 'short_description', 'price', 'quantity', 'image', 'category')
+
+    def __init__(self, *args, **kwargs):
+        super(AdminProductForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+        self.fields['image'].widget.attrs['class'] = 'custom-file-input'
 
