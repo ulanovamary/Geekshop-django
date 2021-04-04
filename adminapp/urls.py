@@ -1,6 +1,6 @@
 from django.urls import path
 
-from adminapp.views import (index, UserListView, UserUpdateView, UserCreateView, UserDeleteView, CategoryUpdateView,  CategoryDeleteView, CategoryCreateView, CategoryListView, product_create, products_read, product_delete, product_update)
+from adminapp.views import (index, UserListView, UserUpdateView, UserCreateView, UserDeleteView, CategoryUpdateView,  CategoryDeleteView, CategoryCreateView, CategoryListView, ProductCreateView, ProductListView, product_delete, ProductUpdateView)
 #if import extends 120 symbols, then cover it with parentheses
 
 app_name = 'adminapp'
@@ -17,9 +17,9 @@ urlpatterns = [
     path('categories/update/<int:pk>', CategoryUpdateView.as_view(), name='category_update'),
     path('categories/delete/<int:pk>', CategoryDeleteView.as_view(), name='category_delete'),
 
-    path('products/create/', product_create, name='product_create'),
-    path('products/read/', products_read, name='products'),
-    path('products/update/<int:product_id>/', product_update, name='product_update'),
+    path('products/create/', ProductCreateView.as_view(), name='product_create'),
+    path('products/read/', ProductListView.as_view(), name='products'),
+    path('products/update/<int:pk>/', ProductUpdateView.as_view(), name='product_update'),
     path('products/delete/<int:product_id>/', product_delete, name='product_delete'),
 
 ]
