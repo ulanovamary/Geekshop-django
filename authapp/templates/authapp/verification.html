@@ -2,6 +2,8 @@
 {% extends 'authapp/base.html' %}
 {% load staticfiles %}
 
+{% block title %} Подтверждение пользователя {% endblock %}
+
 {% block content %}
 
   {% if user.is_authenticated %}

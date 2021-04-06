@@ -12,6 +12,9 @@ from geekshop import settings
 
 from authapp.models import User
 
+from django.db import transaction
+from authapp.forms import UserProfileEditForm
+
 
 
 def verify(request, email, activation_key):
@@ -20,7 +23,7 @@ def verify(request, email, activation_key):
         if user.activation_key == activation_key and not user.is_activation_key_expired():
             user.is_active = True
             user.save()
-            auth.login(request, user)
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return render(request, 'authapp/verification.html')
         else:
             print(f'error activation user: {user}')
@@ -93,17 +96,40 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))
 
-@login_required()
-def profile(request):
+# @login_required()
+# def profile(request):
+#     if request.method == 'POST':
+#         form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(reverse('auth:profile'))
+#     else:
+#         form = UserProfileForm(instance=request.user)
+#     context = {
+#         'form':form,
+#         'baskets': Basket.objects.filter(user=request.user),
+#     }
+#     return render(request, 'authapp/profile.html', context)
+
+
+@transaction.atomic
+def edit(request):
+    title = 'редактирование'
+
     if request.method == 'POST':
-        form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
+        edit_form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
+        profile_form = UserProfileEditForm(data=request.POST, files=request.FILES, instance=request.user.userprofile)
+
+        if edit_form.is_valid() and profile_form.is_valid():
+            edit_form.save()
             return HttpResponseRedirect(reverse('auth:profile'))
     else:
-        form = UserProfileForm(instance=request.user)
+        edit_form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
+        profile_form = UserProfileEditForm(data=request.POST, files=request.FILES,
+                                               instance=request.user.userprofile)
     context = {
-        'form':form,
-        'baskets': Basket.objects.filter(user=request.user),
-    }
+        'title': title,
+        'edit_form':edit_form,
+        'profile_form':profile_form
+        }
     return render(request, 'authapp/profile.html', context)

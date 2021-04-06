@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{ title|title  }}</title>
+    <title>{% block title %}{% endblock %}</title>
     {% now "d-m-Y" as today_str %}
     <p>{{ today_str }}</p>
     <!-- Bootstrap core CSS -->
