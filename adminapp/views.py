@@ -12,6 +12,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/')
@@ -20,7 +21,7 @@ def index(request):
 
 
 #READ
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'adminapp/admin-users-read.html'
     queryset = User.objects.all() #передать праметры отображение, например только активных

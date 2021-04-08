@@ -1,6 +1,6 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.core.mail import send_mail
-from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
 from django.views.generic import FormView, UpdateView
@@ -15,7 +15,6 @@ from authapp.models import User, UserProfile
 
 from django.db import transaction
 from authapp.forms import UserProfileEditForm
-
 
 
 # def login(request):
