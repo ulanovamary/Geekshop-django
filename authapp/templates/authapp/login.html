@@ -1,4 +1,6 @@
-{% extends 'authapp/base.html' %}
+pip{% extends 'authapp/base.html' %}
+
+{% block title %} Авторизация {% endblock %}
 
 {% block content %}
     <div class="col-lg-5">
@@ -44,6 +46,10 @@
             <div class="card-footer text-center">
                 <div class="small"><a href="{% url 'auth:register' %}">Нужен аккаунт? Зарегистрируйся!</a></div>
             </div>
+            <button class="btn btn-round form-control">
+                <a href="{% url 'social:begin' 'vk-oauth2' %}?next=/">
+                    <i class="fab fa-vk"></i></a>
+            </button>
         </div>
     </div>
 {% endblock %}
