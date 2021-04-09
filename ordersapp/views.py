@@ -9,7 +9,6 @@ from ordersapp.models import Order, OrderItem
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from basketapp.models import Basket
-from ordersapp.forms import OrderForm, OrderItemForm
 
 
 class OrderList(LoginRequiredMixin, ListView):
@@ -56,7 +55,7 @@ class OrderCreate(LoginRequiredMixin, CreateView):
                 orderitems.instance = self.object
                 orderitems.save()
 
-        # удаляем пустой заказ
+        # удаление пустого заказа
         if self.object.get_total_cost() == 0:
             self.object.delete()
 
@@ -121,3 +120,7 @@ def order_forming_complete(request, pk):
     order.save()
 
     return HttpResponseRedirect(reverse('ordersapp:orders_list'))
+
+
+class OrderItemsUpdate(object):
+    pass
