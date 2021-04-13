@@ -2,6 +2,7 @@ from django.db import models
 
 from  django.conf import settings
 
+from basketapp.models import Basket
 from mainapp.models import Product
 
 
@@ -69,7 +70,7 @@ class Order(models.Model):
         items = self.orderitems.select_related()
         return sum(list(map(lambda x: x.quantity * x.product.price, items)))
 
-    def delete(self):
+    def delete(self, **kwargs):
         for item in self.orderitems.select_related():
             item.product.quantity += item.quantity
             item.product.save()
@@ -96,6 +97,10 @@ class OrderItem(models.Model):
         default=0
     )
 
+    @staticmethod
+    def get_item(pk):
+        return OrderItem.objects.filter(pk=pk).first()
+
     def get_product_cost(self):
         return self.product.price * self.quantity
 
@@ -105,3 +110,13 @@ class OrderItem(models.Model):
     class Meta:
         verbose_name = 'элемент заказа'
         verbose_name_plural = 'элементы заказа'
+
+    @staticmethod
+    def get_item(pk):
+        return Basket.objects.filter(pk=pk).first()
+
+
+    def delete(self):
+        self.product.quantity += self.quantity
+        self.product.save()
+        super(OrderItem, self).delete()

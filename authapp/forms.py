@@ -33,6 +33,8 @@ class UserRegisterForm(UserCreationForm):
         self.fields['last_name'].widget.attrs['placeholder'] = 'Введите фамилию'
         self.fields['password1'].widget.attrs['placeholder'] = 'Введите пароль'
         self.fields['password2'].widget.attrs['placeholder'] = 'Повторите пароль'
+        self.fields['age'].widget.attrs['placeholder'] = 'Дата рождения'
+
 
 
     def save(self):
