@@ -1,7 +1,5 @@
 Django~=2.2.18
-requests~=2.25.1
 psycopg2-binary
 pillow
-django
 social_auth_app_django
 requests
