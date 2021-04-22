@@ -11,5 +11,5 @@ urlpatterns = [
     path('profile/', ProfileEdit.as_view(), name='profile'),
     path('logout/', Logout.as_view(), name='logout'),
     #path('<int:id>/', products, name='product'),
-    path('verify/<email>/<activation_key>/', RegisterView.verify, name='verify'),
+    path('verify/<str:email>/<str:activation_key>/', RegisterView.verify, name='verify'),
 ]
